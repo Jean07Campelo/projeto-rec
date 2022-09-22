@@ -27,13 +27,15 @@ async function RegisterPoll(req, res) {
       .insertOne({ title, expireAt: validityThirtyDays });
     res.status(201).send({ title, expireAt: validityThirtyDays });
     return;
-  } 
+  }
 
   db.collection("polls").insertOne({ title, expireAt });
   res.status(201).send({ title, expireAt });
 }
 
 async function GetPolls(req, res) {
+  const pollsRegistered = await db.collection("polls").find().toArray();
+  res.status(200).send(pollsRegistered);
 }
 
 export { RegisterPoll, GetPolls };
