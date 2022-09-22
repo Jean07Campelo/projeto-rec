@@ -3,7 +3,7 @@ import joi from "joi";
 
 const choiceSchema = joi.object({
   title: joi.string().required().empty(" "),
-  pollId: joi.string().required(),
+  pollId: joi.string().required().empty(" "),
 });
 
 async function RegisterOption(req, res) {
