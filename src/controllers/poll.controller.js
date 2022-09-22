@@ -3,7 +3,7 @@ import joi from "joi";
 import dayjs from "dayjs";
 
 const pollShema = joi.object({
-  title: joi.string().required().empty(),
+  title: joi.string().required().empty(" "),
   expireAt: joi.string().empty(""),
 });
 
@@ -22,10 +22,12 @@ async function RegisterPoll(req, res) {
     const validityThirtyDays = dayjs(Date.now()).add(30, "days").format("YYYY-MM-DD HH:mm");
     await db.collection("polls").insertOne({title, expireAt: validityThirtyDays});
     res.status(201).send({title, expireAt: validityThirtyDays})
+    return;
   }
 
+  db.collection("polls").insertOne({title, expireAt});
 
-  res.sendStatus(201);
+  res.status(201).send({title, expireAt});
 }
 
 export { RegisterPoll };
