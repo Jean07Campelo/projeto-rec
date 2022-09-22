@@ -9,7 +9,7 @@ const pollShema = joi.object({
 
 async function RegisterPoll(req, res) {
   const { title, expireAt } = req.body;
-  
+
   const validationPoll = pollShema.validate(req.body, { abortEarly: false });
 
   if (validationPoll.error) {
@@ -33,4 +33,7 @@ async function RegisterPoll(req, res) {
   res.status(201).send({ title, expireAt });
 }
 
-export { RegisterPoll };
+async function GetPolls(req, res) {
+}
+
+export { RegisterPoll, GetPolls };

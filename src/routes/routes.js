@@ -5,5 +5,6 @@ import * as pollController from "../controllers/poll.controller.js";
 const router = express.Router();
 
 router.post("/poll", pollController.RegisterPoll);
+router.get("/poll", pollController.GetPolls);
 
 export default router;
