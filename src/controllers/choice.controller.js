@@ -1,6 +1,11 @@
 import db from "../database/db.js";
 import joi from "joi";
 import { ObjectId } from "mongodb";
+import dayjs from "dayjs";
+import compareTime from "dayjs/plugin/isSameOrBefore.js"
+
+const isSameOrBefore = compareTime;
+dayjs.extend(isSameOrBefore)
 
 const choiceSchema = joi.object({
   title: joi.string().required().empty(" "),
@@ -30,6 +35,15 @@ async function RegisterOption(req, res) {
     if (!pollExisting) {
       return res.status(400).send("pollId is not existing");
     }
+
+    //validate validation date
+    const timeNow = dayjs(Date.now()).format("YYYY-MM-DD HH:mm");
+    const pollExpired = dayjs(pollExisting.expireAt).isSameOrBefore(dayjs(timeNow));
+
+    if (pollExpired) {
+      return res.status(403).send(`Poll selected expired in ${pollExisting.expireAt}`);
+    }
+
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
