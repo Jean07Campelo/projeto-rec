@@ -66,7 +66,7 @@ async function RegisterOption(req, res) {
     return res.status(500).send({ message: error.message });
   }
 
-  res.sendStatus(201);
+  res.status(201).send({ title, pollId });
 }
 
 export { RegisterOption };
