@@ -69,4 +69,8 @@ async function RegisterOption(req, res) {
   res.status(201).send({ title, pollId });
 }
 
-export { RegisterOption };
+async function GetChoicesByPoll(req, res) {
+
+}
+
+export { RegisterOption, GetChoicesByPoll };

@@ -10,4 +10,6 @@ router.get("/poll", pollController.GetPolls);
 
 router.post("/choice", choiceController.RegisterOption);
 
+router.get("/poll/:id/choice", choiceController.GetChoicesByPoll);
+
 export default router;
