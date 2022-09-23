@@ -53,6 +53,14 @@ async function RegisterOption(req, res) {
 
   //register new choice
   try {
+    //validate title
+    const titleIsRegistered = await db.collection("choices").findOne({ title });
+    if (titleIsRegistered) {
+      return res
+        .status(409)
+        .send(`The title "${titleIsRegistered.title}" is registered`);
+    }
+
     db.collection("choices").insertOne({ title, pollId });
   } catch (error) {
     return res.status(500).send({ message: error.message });
