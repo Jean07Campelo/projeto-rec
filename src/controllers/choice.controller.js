@@ -73,6 +73,16 @@ async function GetChoicesByPoll(req, res) {
   const pollId = req.params.id;
 
   try {
+    const pollExisting = await db
+      .collection("polls")
+      .findOne({ _id: ObjectId(pollId) });
+
+    if (!pollExisting) {
+      res
+        .status(404)
+        .send(`The id "${pollId}" is not registered with a valid poll`);
+    }
+
     const choicesRegistered = await db
       .collection("choices")
       .find({ pollId })
