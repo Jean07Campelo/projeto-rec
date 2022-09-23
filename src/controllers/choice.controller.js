@@ -70,7 +70,21 @@ async function RegisterOption(req, res) {
 }
 
 async function GetChoicesByPoll(req, res) {
+  const pollId = req.params.id;
 
+  try {
+    const choicesRegistered = await db
+      .collection("choices")
+      .find({ pollId })
+      .toArray();
+
+    const validOptions = choicesRegistered.map((choice) => choice.title);
+    res.send(validOptions);
+  } catch (error) {
+    res.send(error.message);
+  }
+
+  res.status(200);
 }
 
 export { RegisterOption, GetChoicesByPoll };
