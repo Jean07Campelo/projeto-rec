@@ -2,10 +2,10 @@ import db from "../database/db.js";
 import joi from "joi";
 import { ObjectId } from "mongodb";
 import dayjs from "dayjs";
-import compareTime from "dayjs/plugin/isSameOrBefore.js"
+import compareTime from "dayjs/plugin/isSameOrBefore.js";
 
 const isSameOrBefore = compareTime;
-dayjs.extend(isSameOrBefore)
+dayjs.extend(isSameOrBefore);
 
 const choiceSchema = joi.object({
   title: joi.string().required().empty(" "),
@@ -38,12 +38,22 @@ async function RegisterOption(req, res) {
 
     //validate validation date
     const timeNow = dayjs(Date.now()).format("YYYY-MM-DD HH:mm");
-    const pollExpired = dayjs(pollExisting.expireAt).isSameOrBefore(dayjs(timeNow));
+    const pollExpired = dayjs(pollExisting.expireAt).isSameOrBefore(
+      dayjs(timeNow)
+    );
 
     if (pollExpired) {
-      return res.status(403).send(`Poll selected expired in ${pollExisting.expireAt}`);
+      return res
+        .status(403)
+        .send(`Poll selected expired in ${pollExisting.expireAt}`);
     }
+  } catch (error) {
+    return res.status(500).send({ message: error.message });
+  }
 
+  //register new choice
+  try {
+    db.collection("choices").insertOne({ title, pollId });
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
