@@ -13,6 +13,6 @@ router.post("/choice", choiceController.RegisterOption);
 
 router.get("/poll/:id/choice", choiceController.GetChoicesByPoll);
 
-router.post("choice/:id/vote", voteController.RegisterNewVote);
+router.post("/choice/:id/vote", voteController.RegisterNewVote);
 
 export default router;
