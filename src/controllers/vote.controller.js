@@ -6,11 +6,11 @@ async function RegisterNewVote(req, res) {
   const choiceId = req.params.id;
 
   try {
-    const pollSelected = await db
+    const choiceSelected = await db
       .collection("choices")
       .findOne({ _id: ObjectId(choiceId) });
 
-    if (!pollSelected) {
+    if (!choiceSelected) {
       return res.status(404).send(`Choice with id "${choiceId}" is invalid`);
     }
   } catch (error) {
