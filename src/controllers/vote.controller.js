@@ -18,12 +18,7 @@ async function RegisterNewVote(req, res) {
     if (!choiceSelected) {
       return res.status(404).send(`Choice with id "${choiceId}" is invalid`);
     }
-  } catch (error) {
-    return res.status(500).send(error.message);
-  }
 
-  try {
-    //search poll and validate expire date
     const pollSelected = await db
       .collection("polls")
       .findOne({ _id: ObjectId(choiceSelected.pollId) });
@@ -40,6 +35,10 @@ async function RegisterNewVote(req, res) {
           `The poll selected "${pollSelected.title}" expired in ${pollSelected.expireAt}`
         );
     }
+
+    //register new vote
+    const newVote = { createdAt: timeNow, choiceId: ObjectId(choiceId) };
+    db.collection("votes").insertOne(newVote);
   } catch (error) {
     return res.status(500).send(error.message);
   }
