@@ -29,8 +29,11 @@ async function RegisterPoll(req, res) {
     return;
   }
 
-  db.collection("polls").insertOne({ title, expireAt });
-  res.status(201).send({ title, expireAt });
+  await db.collection("polls").insertOne({ title, expireAt });
+
+  const registerPoll = await db.collection("polls").findOne({ title });
+
+  res.status(201).send(registerPoll);
 }
 
 async function GetPolls(req, res) {
