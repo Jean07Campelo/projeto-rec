@@ -20,6 +20,10 @@ async function GetResultByPollId(req, res) {
       .find({ pollId: ObjectId(pollId) })
       .toArray();
 
+    if (registeredChoices.length === 0) {
+      return res.status(200).send(`The poll "${pollSeleted.title}", has no registered votes`)
+    }
+
     //save id from all choices registered
     const choicesId = registeredChoices.map((item) => item._id.toString());
 
