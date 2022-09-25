@@ -61,12 +61,16 @@ async function RegisterOption(req, res) {
         .send(`The title "${titleIsRegistered.title}" is registered`);
     }
 
-    db.collection("choices").insertOne({ title, pollId: ObjectId(pollId) });
+    await db.collection("choices").insertOne({ title, pollId: ObjectId(pollId) });
+    const choiceRegistered = await db.collection("choices").findOne({ title });
+
+    res.status(201).send(choiceRegistered);
+    
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
 
-  res.status(201).send({ title, pollId });
+  
 }
 
 async function GetChoicesByPoll(req, res) {
