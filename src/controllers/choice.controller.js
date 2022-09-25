@@ -85,7 +85,7 @@ async function GetChoicesByPoll(req, res) {
 
     const choicesRegistered = await db
       .collection("choices")
-      .find({ pollId })
+      .find({ pollId: ObjectId(pollId) })
       .toArray();
 
     const validOptions = choicesRegistered.map((choice) => choice.title);
