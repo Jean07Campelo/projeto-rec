@@ -94,12 +94,16 @@ async function GetChoicesByPoll(req, res) {
       .find({ pollId: ObjectId(pollId) })
       .toArray();
 
-    res.send(choicesRegistered);
+      if (choicesRegistered.length === 0) {
+        return res
+          .status(200)
+          .send(`Do not have choices registered for "${pollExisting.title}"`);
+      }
+    res.status(200).send(choicesRegistered);
   } catch (error) {
     res.send(error.message);
   }
 
-  res.status(200);
 }
 
 export { RegisterOption, GetChoicesByPoll };
