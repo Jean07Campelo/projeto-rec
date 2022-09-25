@@ -8,7 +8,9 @@ const pollShema = joi.object({
 });
 
 async function RegisterPoll(req, res) {
-  const { title, expireAt } = req.body;
+  const { expireAt } = req.body;
+  const titlePassed = req.body.title
+  const title = titlePassed[0].toUpperCase() + titlePassed.substring(1);
 
   const validationPoll = pollShema.validate(req.body, { abortEarly: false });
 
@@ -25,7 +27,8 @@ async function RegisterPoll(req, res) {
     await db
       .collection("polls")
       .insertOne({ title, expireAt: validityThirtyDays });
-    res.status(201).send({ title, expireAt: validityThirtyDays });
+    const pollWithExpireAt = await db.collection("polls").findOne({ title })
+    res.status(201).send(pollWithExpireAt);
     return;
   }
 
