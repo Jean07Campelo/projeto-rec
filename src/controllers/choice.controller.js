@@ -88,8 +88,7 @@ async function GetChoicesByPoll(req, res) {
       .find({ pollId: ObjectId(pollId) })
       .toArray();
 
-    const validOptions = choicesRegistered.map((choice) => choice.title);
-    res.send(validOptions);
+    res.send(choicesRegistered);
   } catch (error) {
     res.send(error.message);
   }
