@@ -16,7 +16,7 @@ async function RegisterOption(req, res) {
   const { pollId } = req.body;
   const titlePassed = req.body.title
   const title = titlePassed[0].toUpperCase() + titlePassed.substring(1);
-
+  
   const validationChoice = choiceSchema.validate(req.body, {
     abortEarly: false,
   });
