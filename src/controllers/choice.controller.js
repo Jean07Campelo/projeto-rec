@@ -13,7 +13,9 @@ const choiceSchema = joi.object({
 });
 
 async function RegisterOption(req, res) {
-  const { title, pollId } = req.body;
+  const { pollId } = req.body;
+  const titlePassed = req.body.title
+  const title = titlePassed[0].toUpperCase() + titlePassed.substring(1);
 
   const validationChoice = choiceSchema.validate(req.body, {
     abortEarly: false,
@@ -65,7 +67,7 @@ async function RegisterOption(req, res) {
     const choiceRegistered = await db.collection("choices").findOne({ title });
 
     res.status(201).send(choiceRegistered);
-    
+
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
