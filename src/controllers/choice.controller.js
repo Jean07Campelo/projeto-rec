@@ -61,7 +61,7 @@ async function RegisterOption(req, res) {
         .send(`The title "${titleIsRegistered.title}" is registered`);
     }
 
-    db.collection("choices").insertOne({ title, pollId });
+    db.collection("choices").insertOne({ title, pollId: ObjectId(pollId) });
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
